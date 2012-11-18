@@ -30,7 +30,7 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.gangam);
 				if(mediaPlayer != null){
-					mediaPlayer.start(); // no need to call prepare(); create() does that for you
+					mediaPlayer.start();
 				}
 				
 			}
