@@ -17,9 +17,10 @@ import android.database.sqlite.SQLiteStatement;
 public class LocaleDataSource {
 	
 	//Database fields
+	private Context context;
 	private static SQLiteDatabase database;
 	private MySQLiteHelper myHelper;
-	private String[] allColumns = myHelper.getColumns();
+	private String[] allColumns;
     private SQLiteStatement insertStmt;
     
     //Insert statement
@@ -30,7 +31,9 @@ public class LocaleDataSource {
 	 * @param context The context of the application.
 	 */
 	public LocaleDataSource(Context context){
-		myHelper = new MySQLiteHelper(context);
+		this.context = context;
+		myHelper = new MySQLiteHelper(this.context);
+		open();
         this.insertStmt = LocaleDataSource.database.compileStatement(INSERT);
 	}
 	
@@ -40,6 +43,8 @@ public class LocaleDataSource {
 	 */
 	public void open() throws SQLException {
 		database = myHelper.getWritableDatabase();
+		System.out.println(database.toString());
+
 	}
 	
 	/**
@@ -101,12 +106,10 @@ public class LocaleDataSource {
 	 * 
 	 */
 	public void prepopulate(){
-		database.execSQL("INSERT INTO MyTable (name, latitude, longitude, description) " +
-				"VALUES (Empire State Building, 40.7484, 73.9847, The Empire State Building");
-		database.execSQL("INSERT INTO MyTable (name, latitude, longitude, description) " +
-				"VALUES (Golden Gate Bridge, 37.8188, 122.4784, The Golden Gate Bridge is a suspension bridge");
-		database.execSQL("INSERT INTO MyTable (name, latitude, longitude, description) " +
-				"VALUES (Gateway Arch, 38.6254, 90.1834, The Gateway Arch, or Gateway to the West");
+		insertLocale("College of Fine Arts", 40.441542, -79.942812, "The Golden Gate Bridge is a suspension bridge");
+		insertLocale("Hunt Library", 40.441044, -79.943681, "The Golden Gate Bridge is a suspension bridge");
+		insertLocale("Doherty Hall", 40.442652, -79.944480, "The Golden Gate Bridge is a suspension bridge");
+
 
 	}
 
