@@ -1,5 +1,7 @@
 package ssui.fabbasi.tourguide;
 
+import android.graphics.drawable.Drawable;
+
 import com.google.android.maps.GeoPoint;
 
 /**
@@ -14,6 +16,7 @@ public class Locale {
 	private final String name;
 	private final String description;
 	private final GeoPoint point;
+	private final double image;
 	
 	/**
 	 * Constructor for a locale object.
@@ -22,10 +25,11 @@ public class Locale {
 	 * @param _latitude An int representation of the latitude of the locale.
 	 * @param _longitude An int representation of the longitude of the locale.
 	 */
-	public Locale(int _id, String _name, int _latitude, int _longitude, String _description){
+	public Locale(int _id, String _name, int _latitude, int _longitude, String _description, double _image){
 		id = _id;
 		name = _name;
 		description = _description;
+		image = _image;
 		//Ensure that the coordinates provided are within the appropriate range, otherwise set the point to 0,0.
 		if(_latitude > -90 && _latitude < 90 && _longitude > -180 && _longitude < 180){
 			point = new GeoPoint(_latitude, _longitude);
@@ -43,10 +47,11 @@ public class Locale {
 	 * @param _latitude A double representation of the latitude of the locale.
 	 * @param _longitude A double representation of the longitude of the locale.
 	 */
-	public Locale(int _id, String _name, double _latitude, double _longitude, String _description) {
+	public Locale(int _id, String _name, double _latitude, double _longitude, String _description, double _image) {
 		id = _id;
 		name = _name;
 		description = _description;
+		image = _image;
 
 		//Ensure that the coordinates provided are within the appropriate range, otherwise set the point to 0,0.
 		if(_latitude > -90 && _latitude < 90 && _longitude > -180 && _longitude < 180){
@@ -90,5 +95,13 @@ public class Locale {
 	 */
 	public GeoPoint getPoint() {
 		return point;
+	}
+
+
+	/**
+	 * @return the image
+	 */
+	public double getImage() {
+		return image;
 	}
 }

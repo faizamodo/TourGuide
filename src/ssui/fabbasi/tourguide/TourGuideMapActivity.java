@@ -30,7 +30,7 @@ public class TourGuideMapActivity extends MapActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.map_layout);
         db = new LocaleDataSource(this);
         db.prepopulate();
         i = 0;
