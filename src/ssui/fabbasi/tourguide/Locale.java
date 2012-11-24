@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 import com.google.android.maps.GeoPoint;
 
 /**
- * This class represents a Locale object. It contains the name, text description, and the coordinates of the locale. This class is the
+ * This class represents a Locale object. It contains the name, text description, coordinates, and image of the locale. This class is the
  * model and contains the data we will save in the database and show in the user interface.
  * @author Faiz
  *
@@ -16,7 +16,7 @@ public class Locale {
 	private final String name;
 	private final String description;
 	private final GeoPoint point;
-	private final double image;
+	private final int image;
 	
 	/**
 	 * Constructor for a locale object.
@@ -24,12 +24,13 @@ public class Locale {
 	 * @param _description The text description that is shown to a user.
 	 * @param _latitude An int representation of the latitude of the locale.
 	 * @param _longitude An int representation of the longitude of the locale.
+	 * @param _image An double referring to the image of the locale.
 	 */
 	public Locale(int _id, String _name, int _latitude, int _longitude, String _description, double _image){
 		id = _id;
 		name = _name;
 		description = _description;
-		image = _image;
+		image = (int) _image;
 		//Ensure that the coordinates provided are within the appropriate range, otherwise set the point to 0,0.
 		if(_latitude > -90 && _latitude < 90 && _longitude > -180 && _longitude < 180){
 			point = new GeoPoint(_latitude, _longitude);
@@ -46,12 +47,13 @@ public class Locale {
 	 * @param _description The text description that is shown to a user.
 	 * @param _latitude A double representation of the latitude of the locale.
 	 * @param _longitude A double representation of the longitude of the locale.
+	 * @param _image An double referring to the image of the locale.
 	 */
 	public Locale(int _id, String _name, double _latitude, double _longitude, String _description, double _image) {
 		id = _id;
 		name = _name;
 		description = _description;
-		image = _image;
+		image = (int) _image;
 
 		//Ensure that the coordinates provided are within the appropriate range, otherwise set the point to 0,0.
 		if(_latitude > -90 && _latitude < 90 && _longitude > -180 && _longitude < 180){
@@ -101,7 +103,7 @@ public class Locale {
 	/**
 	 * @return the image
 	 */
-	public double getImage() {
+	public int getImage() {
 		return image;
 	}
 }

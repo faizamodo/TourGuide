@@ -32,7 +32,6 @@ public class TourGuideMapActivity extends MapActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_layout);
         db = new LocaleDataSource(this);
-        db.prepopulate();
         i = 0;
         LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
         
@@ -97,6 +96,7 @@ public class TourGuideMapActivity extends MapActivity {
         change.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if(i > 0){
 				i = i % locales.size();
 				Locale l = locales.get(i);
             	Location loc = new Location("dummyprovider");
@@ -107,6 +107,7 @@ public class TourGuideMapActivity extends MapActivity {
             	Toast.makeText(getApplicationContext(), l.getDescription(), Toast.LENGTH_SHORT).show();
             	locationListener.onLocationChanged(loc);
             }
+			}
 		});
     
     }

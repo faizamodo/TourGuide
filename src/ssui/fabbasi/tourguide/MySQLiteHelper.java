@@ -26,6 +26,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_LATITUDE = "latitude";
 	public static final String COLUMN_LONGITUDE = "longitude";
 	public static final String COLUMN_DESCRIPTION = "description";
+	public static final String COLUMN_IMAGE = "image";
 
 	// Database creation sql statement. Store the latitude and longitude as real to preserve their decimal numerals.
 	private static final String DATABASE_CREATE = "create table "
@@ -34,6 +35,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			+ " text not null, " + COLUMN_LATITUDE
 			+ " real not null, " + COLUMN_LONGITUDE
 			+ " real not null, " + COLUMN_DESCRIPTION
+			+ " real not null, " + COLUMN_IMAGE
 			+ " text not null);";
 
 	/**
@@ -68,7 +70,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	 * @return A string array of column names.
 	 */
 	public String[] getColumns() {
-		String[] columns = {"COLUMN_ID", "COLUMN_NAME", "COLUMN_LATITUDE", "COLUMN_LONGITUDE", "COLUMN_DESCRIPTION"};
+		String[] columns = {"COLUMN_ID", "COLUMN_NAME", "COLUMN_LATITUDE", "COLUMN_LONGITUDE", "COLUMN_DESCRIPTION", "COLUMN_IMAGE"};
 		return columns;
 	}
 

@@ -44,9 +44,9 @@ public class LocaleAdapter extends ArrayAdapter<Locale> {
             holder = (LocaleHolder)row.getTag();
         }
         
-        Weather weather = data[position];
-        holder.txtTitle.setText(weather.title);
-        holder.imgIcon.setImageResource(weather.icon);
+        Locale locale = objects[position];
+        holder.txtTitle.setText(locale.getName());
+        holder.imgIcon.setImageResource(locale.getImage());
         
         return row;
     }

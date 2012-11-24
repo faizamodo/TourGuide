@@ -26,7 +26,7 @@ public class LocaleDataSource {
     private SQLiteStatement insertStmt;
     
     //Insert statement
-    private static final String INSERT = "insert into locales (name, latitude, longitude, description) values (?,?,?,?)";
+    private static final String INSERT = "insert into locales (name, latitude, longitude, description, image) values (?,?,?,?,?)";
 	
 	/**
 	 * Initialize a new MySQLiteHelper object
@@ -100,6 +100,7 @@ public class LocaleDataSource {
 			locales.add(locale);
 			cursor.moveToNext();
 		}
+		cursor.close();
 		
 		return locales;
 	}

@@ -15,9 +15,9 @@ public class TabMenu extends TabActivity {
         Resources res = getResources();
         TabHost tabHost = getTabHost();       
       
-        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("", res.getDrawable(R.drawable.list_icon)).setContent(new Intent(this, TourGuideMapActivity.class)));
+        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("", res.getDrawable(R.drawable.list_icon)).setContent(new Intent(this, ListActivity.class)));
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("", res.getDrawable(R.drawable.map_icon)).setContent(new Intent(this, TourGuideMapActivity.class)));
-        tabHost.setCurrentTab(0); 
+        tabHost.setCurrentTab(0);
     }
 	
 	
