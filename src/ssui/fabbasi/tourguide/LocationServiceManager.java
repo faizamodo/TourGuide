@@ -6,6 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+/**
+ * This class is used to start the LocationService on application bootup via a BroadcastReceiver.
+ * @author Faiz
+ *
+ */
 public class LocationServiceManager extends BroadcastReceiver {
 
 	public static final String TAG = "LocationServiceManager";

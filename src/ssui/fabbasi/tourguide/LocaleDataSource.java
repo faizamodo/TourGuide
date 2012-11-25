@@ -105,6 +105,16 @@ public class LocaleDataSource {
 		return locales;
 	}
 	
+	public Locale[] getArrayOfLocales(){
+        //Fetch the list of locales
+        List<Locale> list = getAllLocales();
+        
+        //Transform into an array
+        Locale[] locales = list.toArray(new Locale[list.size()]);
+        
+        return locales;
+	}
+	
 	/**
 	 * Call this method to prepopulate the database with data.
 	 * 

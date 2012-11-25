@@ -7,6 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
+/**
+ * This class represents the data structure that displays and populates the locale listview.
+ * @author Faiz
+ *
+ */
 public class ListActivity extends Activity{
 	
 	
@@ -24,11 +29,8 @@ public class ListActivity extends Activity{
 	        db = new LocaleDataSource(this);
 			db.prepopulate();
 	        
-	        //Fetch the list of locales
-	        List<Locale> list = db.getAllLocales();
-	        
-	        //Transform into an array
-	        Locale[] locales = list.toArray(new Locale[list.size()]);
+			//Retrieve an array of the locales
+			Locale[] locales = db.getArrayOfLocales();
 	        
 	        
 	        
