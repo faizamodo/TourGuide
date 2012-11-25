@@ -105,6 +105,19 @@ public class LocaleDataSource {
 		return locales;
 	}
 	
+	/**
+	 * This method checks to see if there are any entries in the table.
+	 * @return true if there are entries in the table. False otherwise.
+	 */
+	public boolean empty(){
+		boolean isEmpty;
+		Cursor cursor = database.query(MySQLiteHelper.TABLE_NAME, allColumns, null, null, null, null, null);
+		
+		isEmpty =  !cursor.moveToFirst();
+		cursor.close();
+		return isEmpty;
+	}
+	
 	public Locale[] getArrayOfLocales(){
         //Fetch the list of locales
         List<Locale> list = getAllLocales();

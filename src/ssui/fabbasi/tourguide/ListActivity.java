@@ -27,8 +27,9 @@ public class ListActivity extends Activity{
 	        
 	        //Set up connection to the database
 	        db = new LocaleDataSource(this);
-			db.prepopulate();
-	        
+	        if(db.empty()){
+	        	db.prepopulate();
+	        }
 			//Retrieve an array of the locales
 			Locale[] locales = db.getArrayOfLocales();
 	        
