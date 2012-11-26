@@ -87,7 +87,7 @@ public class LocaleDataSource {
 	
 	/**
 	 * Retrieve all locales in the database, in the order that they were inserted into the database.
-	 * @return
+	 * @return A list of Locales
 	 */
 	public List<Locale> getAllLocales(){
 		List<Locale> locales = new ArrayList<Locale>();
@@ -118,6 +118,10 @@ public class LocaleDataSource {
 		return isEmpty;
 	}
 	
+	/**
+	 * Return all the Locales stores in the database in an array
+	 * @return A Locale array
+	 */
 	public Locale[] getArrayOfLocales(){
         //Fetch the list of locales
         List<Locale> list = getAllLocales();
@@ -129,12 +133,12 @@ public class LocaleDataSource {
 	}
 	
 	/**
-	 * Call this method to prepopulate the database with data.
+	 * Call this method to prepopulate the database with data. This method will recreate records, so be careful.
 	 * 
 	 */
 	public void prepopulate(){
 		//UC
-		insertLocale("University Center", 40.443403, -79.942104, "Located next to Gesling Stadium, the University Center (UC) is the student hub " +
+		insertLocale("University Center", 40443403, -79942104, "Located next to Gesling Stadium, the University Center (UC) is the student hub " +
 				"of activity on campus. You can pick up your snail mail, get career advice, visit the chapel or find a quiet " +
 				"space to study. There are several dining options, recreational fitness facilities, a retail store, a convenience " +
 				"store and a 450-seat state-of-the-art theater Ð these are only a few reasons why you would visit the UC at least once per day.", R.drawable.ic_launcher);
@@ -234,6 +238,11 @@ public class LocaleDataSource {
 	}
 
 
+	/**
+	 * This method transforms the cursor data into a Locale object.
+	 * @param cursor A pointer to the resulting output of a SQL query
+	 * @return The Locale object given by the current row of the cursor
+	 */
 	private Locale cursorToLocale(Cursor cursor) {
 		Locale locale = new Locale(cursor.getPosition(), cursor.getString(1), cursor.getDouble(2), cursor.getDouble(3), cursor.getString(4), cursor.getDouble(5));
 		
@@ -241,6 +250,11 @@ public class LocaleDataSource {
 
 	}
 
+	/**
+	 * Returns the Locale at the given id
+	 * @param location The id of the Locale to be found in the database
+	 * @return The Locale object at the given id
+	 */
 	public Locale getById(int location) {
 		Locale l = null;
 		

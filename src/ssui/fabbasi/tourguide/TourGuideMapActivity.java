@@ -70,12 +70,17 @@ public class TourGuideMapActivity extends MapActivity {
 			}
 
 			private void makeUseOfNewLocation(Location location) {
+				boolean notified = false;
 				for(final Locale l : locales){
 					Location loc = new Location("dummyprovider");
 					loc.setLatitude(l.getPoint().getLatitudeE6());
 					loc.setLongitude(l.getPoint().getLongitudeE6());
+					System.out.println(loc.getLatitude()*1E6 + " " + loc.getLongitude()*1E6);
+					System.out.println(location.getLatitude() + " " + location.getLongitude());
+					boolean close = location.distanceTo(loc) < 10;
 
-					if(loc.distanceTo(location) < 10){
+					if(close && !notified){
+						notified = true;
 						AlertDialog.Builder adb = new AlertDialog.Builder(TourGuideMapActivity.this);
 						adb.setTitle("Point of Interest");
 						adb.setMessage("Within range of " + l.getName());
@@ -88,7 +93,7 @@ public class TourGuideMapActivity extends MapActivity {
 								Intent launchView = new Intent(TourGuideMapActivity.this, LocaleViewActivity.class);
 
 								launchView.putExtra("id", l.getId());
-								startActivityForResult(launchView, 1);  
+								startActivity(launchView);
 
 							}      
 						}); 
@@ -97,11 +102,9 @@ public class TourGuideMapActivity extends MapActivity {
 						adb.show();           
 					}
 				}
-
-
-
-				int lon = (int) (location.getLongitude());
-				int lat = (int) (location.getLatitude());
+				int lon = (int) (location.getLongitude()*1E6);
+				int lat = (int) (location.getLatitude()*1E6);
+				System.out.println("Lat: " + (lat/1E6) + " Lon: " + (lon/1E6));
 
 				//Create new GeoPoint to point the map to.
 				GeoPoint geopoint = new GeoPoint(lat, lon);
