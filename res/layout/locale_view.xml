@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android1="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:padding="15sp" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:layout_weight="2.87"
+        android:padding="10sp" >
+
+        <LinearLayout
+            android1:id="@+id/linearLayout1"
+            android1:layout_width="match_parent"
+            android1:layout_height="wrap_content"
+            android1:layout_alignParentTop="true"
+            android:gravity="center_vertical"
+            android:paddingBottom="10sp" >
+
+            <ImageView
+                android1:id="@+id/image"
+                android1:layout_width="wrap_content"
+                android1:layout_height="wrap_content"
+                android:paddingRight="10sp"
+                android1:src="@drawable/ic_launcher" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Title"
+                android:textColor="#282828"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <ScrollView
+            android1:id="@+id/scrollView1"
+            android1:layout_width="match_parent"
+            android1:layout_height="match_parent"
+            android1:layout_alignLeft="@+id/linearLayout1"
+            android1:layout_below="@+id/linearLayout1" >
+
+            <LinearLayout
+                android1:layout_width="match_parent"
+                android1:layout_height="match_parent" >
+
+                <TextView
+                    android1:id="@+id/description"
+                    android1:layout_width="wrap_content"
+                    android1:layout_height="wrap_content"
+                    android1:hint="Description of the content. This information should be scrollable if it exceeds the space." />
+
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+</RelativeLayout>

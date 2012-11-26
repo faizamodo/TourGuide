@@ -66,18 +66,13 @@ public class TourGuideMapActivity extends MapActivity {
 			private void makeUseOfNewLocation(Location location) {
 
 
-				double lon = (double) (location.getLongitude());
-				double lat = (double) (location.getLatitude());
-				System.out.println("The lat is " + lat);
+				int lon = (int) (location.getLongitude());
+				int lat = (int) (location.getLatitude());
 
-				int lontitue = (int)lon;
-				int latitute = (int)lat;
-				System.out.println("The latitute is " + latitute);
-
-
-				GeoPoint geopoint = new GeoPoint(latitute, lontitue);
+				//Create new GeoPoint to point the map to.
+				GeoPoint geopoint = new GeoPoint(lat, lon);
 				mapController.animateTo(geopoint);
-
+				//Invalidate map to cause redraw
 				mapview.invalidate();
 			}
 
