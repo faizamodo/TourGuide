@@ -34,8 +34,9 @@ public class LocaleAdapter extends ArrayAdapter<Locale> {
             row = inflater.inflate(textViewResourceId, parent, false);
             
             holder = new LocaleHolder();
-            holder.imgIcon = (ImageView)row.findViewById(R.id.imgIcon);
-            holder.txtTitle = (TextView)row.findViewById(R.id.txtTitle);
+            holder.imgIcon = (ImageView)row.findViewById(R.id.imageView1);
+            holder.txtTitle = (TextView)row.findViewById(R.id.textView1);
+            holder.txtDesc = (TextView)row.findViewById(R.id.textView2);
             
             row.setTag(holder);
         }
@@ -46,6 +47,7 @@ public class LocaleAdapter extends ArrayAdapter<Locale> {
         
         Locale locale = objects[position];
         holder.txtTitle.setText(locale.getName());
+        holder.txtDesc.setText(locale.getDescription());
         holder.imgIcon.setImageResource(locale.getImage());
         
         return row;
@@ -55,5 +57,6 @@ public class LocaleAdapter extends ArrayAdapter<Locale> {
     {
         ImageView imgIcon;
         TextView txtTitle;
+        TextView txtDesc;
     }
 }

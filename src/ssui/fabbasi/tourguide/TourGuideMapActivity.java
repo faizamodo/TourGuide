@@ -110,6 +110,9 @@ public class TourGuideMapActivity extends MapActivity {
 			}
 		});
 
+		//Request updates from the phone
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,locationListener);
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0,0,locationListener);
 	}
 
 

@@ -4,7 +4,6 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-
     <com.google.android.maps.MapView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/mapview"
@@ -22,5 +21,6 @@
         android:layout_marginRight="14dp"
         android:layout_marginTop="14dp"
         android:text="Next Location" />
+
 
 </RelativeLayout>
