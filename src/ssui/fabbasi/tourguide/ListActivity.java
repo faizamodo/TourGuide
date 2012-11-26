@@ -2,8 +2,10 @@ package ssui.fabbasi.tourguide;
 
 import java.util.List;
 
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -53,12 +55,12 @@ public class ListActivity extends Activity{
 			public void onItemClick(AdapterView<?> arg0, View v, int position, long id)
 			{
 				Locale l = (Locale) listView1.getItemAtPosition(position);
-				AlertDialog.Builder adb = new AlertDialog.Builder(
-						ListActivity.this);
-				adb.setTitle("ListView OnClick");
-				adb.setMessage("Selected Item id is = " + l.getId());
-				adb.setPositiveButton("Ok", null);
-				adb.show();           
+				int location = l.getId();
+				//        	   Toast.makeText(Gallery.this, "" + position + ", " + location, Toast.LENGTH_SHORT).show();
+				Intent launchView = new Intent(ListActivity.this, LocaleViewActivity.class);
+
+				launchView.putExtra("id", location);
+				startActivityForResult(launchView, 1);         
 			}
 		});
 	}

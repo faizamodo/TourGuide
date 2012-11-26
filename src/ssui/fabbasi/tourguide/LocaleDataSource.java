@@ -240,6 +240,23 @@ public class LocaleDataSource {
 		return locale;
 
 	}
+
+	public Locale getById(int location) {
+		Locale l = null;
+		
+    	String q = "SELECT * FROM locales.db WHERE _id = '" + location +"';";
+    	
+    	Cursor cursor = database.rawQuery(q, null);
+    	
+    	if(cursor.moveToFirst()){
+			l = cursorToLocale(cursor);
+    	}
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        } 
+		
+		return l;
+	}
 	
 
 }
