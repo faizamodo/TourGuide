@@ -7,6 +7,10 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -26,12 +30,14 @@ public class TourGuideMapActivity extends MapActivity {
 	LocationListener locationListener;
 	LocaleDataSource db;
 	int i;
+	List<Locale> locales;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.map_layout);
 		db = new LocaleDataSource(this);
+		locales = db.getAllLocales();
 		i = 0;
 		LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
 
@@ -64,6 +70,34 @@ public class TourGuideMapActivity extends MapActivity {
 			}
 
 			private void makeUseOfNewLocation(Location location) {
+				for(final Locale l : locales){
+					Location loc = new Location("dummyprovider");
+					loc.setLatitude(l.getPoint().getLatitudeE6());
+					loc.setLongitude(l.getPoint().getLongitudeE6());
+
+					if(loc.distanceTo(location) < 10){
+						AlertDialog.Builder adb = new AlertDialog.Builder(TourGuideMapActivity.this);
+						adb.setTitle("Point of Interest");
+						adb.setMessage("Within range of " + l.getName());
+						adb.setPositiveButton("View More", new OnClickListener() 
+						{     
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								Intent launchView = new Intent(TourGuideMapActivity.this, LocaleViewActivity.class);
+
+								launchView.putExtra("id", l.getId());
+								startActivityForResult(launchView, 1);  
+
+							}      
+						}); 
+						
+						adb.setNegativeButton("Close", null);
+						adb.show();           
+					}
+				}
+
 
 
 				int lon = (int) (location.getLongitude());
@@ -86,7 +120,6 @@ public class TourGuideMapActivity extends MapActivity {
 
 		//Assign the appropriate button
 		change = (Button) findViewById(R.id.button1);
-		final List<Locale> locales = db.getAllLocales();
 
 		change.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -99,7 +132,6 @@ public class TourGuideMapActivity extends MapActivity {
 					loc.setLatitude(l.getPoint().getLatitudeE6());
 					loc.setLongitude(l.getPoint().getLongitudeE6());
 
-					Toast.makeText(getApplicationContext(), l.getDescription(), Toast.LENGTH_SHORT).show();
 					locationListener.onLocationChanged(loc);
 				}
 			}

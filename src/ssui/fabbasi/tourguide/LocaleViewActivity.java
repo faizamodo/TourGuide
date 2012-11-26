@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 public class LocaleViewActivity extends Activity{
 
-	int location;
+	int id;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -27,13 +27,14 @@ public class LocaleViewActivity extends Activity{
 		//Get the intent that started the activity
 		Intent i = getIntent();
 
-		location = i.getIntExtra("id", -1);
-		String intent_id = Integer.toString(location);
+		//Add one to the id for displacement issue 
+		id = i.getIntExtra("id", -1) + 1;
+		String intent_id = Integer.toString(id);
 
 
 		LocaleDataSource db = new LocaleDataSource(this);
 
-		Locale l = db.getById(location);
+		Locale l = db.getById(id);
 		if(l != null){
 			ImageView image = (ImageView) findViewById(R.id.image);
 			TextView title = (TextView) findViewById(R.id.title);
