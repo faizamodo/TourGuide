@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -28,6 +29,7 @@ public class ListActivity extends Activity{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.startService(new Intent(this, LocationService.class));
 		setContentView(R.layout.list_layout);
 
 		//Set up connection to the database
