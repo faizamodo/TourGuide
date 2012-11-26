@@ -244,7 +244,7 @@ public class LocaleDataSource {
 	public Locale getById(int location) {
 		Locale l = null;
 		
-    	String q = "SELECT * FROM locales.db WHERE _id = '" + location +"';";
+    	String q = "SELECT * FROM locales WHERE _id = '" + location +"';";
     	
     	Cursor cursor = database.rawQuery(q, null);
     	

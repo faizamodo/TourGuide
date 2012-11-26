@@ -14,34 +14,34 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class LocaleViewActivity extends Activity{
-	
+
 	int location;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.locale_view);
-		
+
 
 		//reading information passed to this activity
 		//Get the intent that started the activity
 		Intent i = getIntent();
-		
+
 		location = i.getIntExtra("id", -1);
 		String intent_id = Integer.toString(location);
-		
-		
-		LocaleDataSource db = new LocaleDataSource(this);
-        
-		Locale l = db.getById(location);
-    	
-    	ImageView image = (ImageView) findViewById(R.id.image);
-    	TextView title = (TextView) findViewById(R.id.title);
-    	TextView desc = (TextView) findViewById(R.id.description);
-    	image.setImageResource(l.getImage());
-    	title.setText(l.getName());
-    	desc.setText(l.getDescription());
 
-    	
+
+		LocaleDataSource db = new LocaleDataSource(this);
+
+		Locale l = db.getById(location);
+		if(l != null){
+			ImageView image = (ImageView) findViewById(R.id.image);
+			TextView title = (TextView) findViewById(R.id.title);
+			TextView desc = (TextView) findViewById(R.id.description);
+			image.setImageResource(l.getImage());
+			title.setText(l.getName());
+			desc.setText(l.getDescription());
+		}
+
 	}
 }
