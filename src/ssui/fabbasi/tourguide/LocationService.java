@@ -9,8 +9,14 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 public class LocationService extends Service implements LocationListener {
+	
+	//String commands
+	public static final String MOVEMENT_UPDATE = "ssui.fabbasi.tourguide.MOVEMENT_UPDATE";
+	public static final String LATITUDE = "ssui.fabbasi.tourguide.LATITUDE";
+	public static final String LONGITUDE = "ssui.fabbasi.tourguide.LONGITUDE";
 	
 	private static final String DEBUG_TAG = "Uhh";
 	private LocationManager lm;
@@ -21,7 +27,6 @@ public class LocationService extends Service implements LocationListener {
 	}
 	@Override
 	public IBinder onBind(Intent intent) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
@@ -31,9 +36,8 @@ public class LocationService extends Service implements LocationListener {
 
 	    lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
-	    lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 10f, this);
-	    lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000,
-	            300f, this);
+	    lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+	    lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 
 	    Log.d(DEBUG_TAG, lm.toString());
 
@@ -42,6 +46,18 @@ public class LocationService extends Service implements LocationListener {
 	@Override
 	public void onLocationChanged(Location location) {
 		System.out.println("Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude());
+		
+		Toast toast = Toast.makeText(this, "Location Change", Toast.LENGTH_SHORT);
+		toast.show();
+		
+		//Stuff the latitude and longitude into an intent to be received by the TourGuideMapActivity view
+		Intent intent = new Intent(MOVEMENT_UPDATE);
+		intent.putExtra(LATITUDE, location.getLatitude());
+		intent.putExtra(LONGITUDE, location.getLongitude());
+		intent.setAction("ssui.fabbasi.tourguide.mybroadcast");
+		
+		sendBroadcast(intent);
+		
 		
 	}
 
