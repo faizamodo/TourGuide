@@ -138,7 +138,7 @@ public class LocaleDataSource {
 	 */
 	public void prepopulate(){
 		//UC
-		insertLocale("University Center", 40443403, -79942104, "Located next to Gesling Stadium, the University Center (UC) is the student hub " +
+		insertLocale("University Center", 40.443403, -79.942104, "Located next to Gesling Stadium, the University Center (UC) is the student hub " +
 				"of activity on campus. You can pick up your snail mail, get career advice, visit the chapel or find a quiet " +
 				"space to study. There are several dining options, recreational fitness facilities, a retail store, a convenience " +
 				"store and a 450-seat state-of-the-art theater Ð these are only a few reasons why you would visit the UC at least once per day.", R.drawable.ic_launcher);

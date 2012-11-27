@@ -47,7 +47,7 @@ public class LocationService extends Service implements LocationListener {
 	public void onLocationChanged(Location location) {
 		System.out.println("Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude());
 		
-		Toast toast = Toast.makeText(this, "Location Change", Toast.LENGTH_SHORT);
+		Toast toast = Toast.makeText(this, "Location Change, Accuracy is: " + location.getAccuracy(), Toast.LENGTH_SHORT);
 		toast.show();
 		
 		//Stuff the latitude and longitude into an intent to be received by the TourGuideMapActivity view
@@ -56,8 +56,9 @@ public class LocationService extends Service implements LocationListener {
 		intent.putExtra(LONGITUDE, location.getLongitude());
 		intent.setAction("ssui.fabbasi.tourguide.mybroadcast");
 		
-		sendBroadcast(intent);
-		
+		if(location.getAccuracy() < 50){
+			sendBroadcast(intent);
+		}
 		
 	}
 

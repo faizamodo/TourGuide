@@ -15,31 +15,10 @@ public class Locale {
 	private final int id;
 	private final String name;
 	private final String description;
-	private final GeoPoint point;
+	private final double lat;
+	private final double lon;
 	private final int image;
-	
-	/**
-	 * Constructor for a locale object.
-	 * @param _name The name of this locale
-	 * @param _description The text description that is shown to a user.
-	 * @param _latitude An int representation of the latitude of the locale.
-	 * @param _longitude An int representation of the longitude of the locale.
-	 * @param _image An double referring to the image of the locale.
-	 */
-	public Locale(int _id, String _name, int _latitude, int _longitude, String _description, double _image){
-		id = _id;
-		name = _name;
-		description = _description;
-		image = (int) _image;
-		//Ensure that the coordinates provided are within the appropriate range, otherwise set the point to 0,0.
-		if(_latitude > -90 && _latitude < 90 && _longitude > -180 && _longitude < 180){
-			point = new GeoPoint(_latitude, _longitude);
-		}
-		else{
-			point = new GeoPoint(0,0);
-		}
-	}
-	
+		
 
 	/**
 	 * Constructor for a locale object. It takes double values for the latitude and longitude, and converts them into the appropriate int value.
@@ -58,16 +37,12 @@ public class Locale {
 		//Ensure that the coordinates provided are within the appropriate range, otherwise set the point to 0,0.
 		if(_latitude > -90 && _latitude < 90 && _longitude > -180 && _longitude < 180){
 			//If so, convert the double latitude and longitude into equivalent int values, to create a GeoPoint.
-			double lat = _latitude * 1E6;
-			double lon = _longitude * 1E6;
-			
-			int ilat = (int) lat;
-			int ilon = (int) lon;
-			
-			point = new GeoPoint(ilat, ilon);
+			lat = _latitude;
+			lon = _longitude;
 		}
 		else{
-			point = new GeoPoint(0,0);
+			lat = 0;
+			lon = 0;
 		}
 	}
 
@@ -93,12 +68,18 @@ public class Locale {
 	}
 
 	/**
-	 * @return the point
+	 * @return the lat
 	 */
-	public GeoPoint getPoint() {
-		return point;
+	public double getLat() {
+		return lat;
 	}
 
+	/**
+	 * @return the lon
+	 */
+	public double getLon() {
+		return lon;
+	}
 
 	/**
 	 * @return the image

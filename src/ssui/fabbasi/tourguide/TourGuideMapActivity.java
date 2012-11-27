@@ -77,9 +77,10 @@ public class TourGuideMapActivity extends MapActivity {
 				boolean notified = false;
 				for(final Locale l : locales){
 					Location loc = new Location("dummyprovider");
-					loc.setLatitude(l.getPoint().getLatitudeE6());
-					loc.setLongitude(l.getPoint().getLongitudeE6());
-					System.out.println(loc.getLatitude()*1E6 + " " + loc.getLongitude()*1E6);
+					//Set the latitude and longitude of the new location, with the current locale
+					loc.setLatitude(l.getLat());
+					loc.setLongitude(l.getLon());
+					System.out.println(loc.getLatitude() + " " + loc.getLongitude());
 					System.out.println(location.getLatitude() + " " + location.getLongitude());
 					boolean close = location.distanceTo(loc) < 10;
 
@@ -108,7 +109,7 @@ public class TourGuideMapActivity extends MapActivity {
 				}
 				int lon = (int) (location.getLongitude()*1E6);
 				int lat = (int) (location.getLatitude()*1E6);
-				System.out.println("Lat: " + (lat/1E6) + " Lon: " + (lon/1E6));
+				System.out.println("Lat: " + (lat) + " Lon: " + (lon));
 
 				//Create new GeoPoint to point the map to.
 				GeoPoint geopoint = new GeoPoint(lat, lon);
@@ -137,8 +138,8 @@ public class TourGuideMapActivity extends MapActivity {
 					Locale l = locales.get(i);
 					Location loc = new Location("dummyprovider");
 					i++;
-					loc.setLatitude(l.getPoint().getLatitudeE6());
-					loc.setLongitude(l.getPoint().getLongitudeE6());
+					loc.setLatitude(l.getLat());
+					loc.setLongitude(l.getLon());
 
 					locationListener.onLocationChanged(loc);
 				}
@@ -164,8 +165,8 @@ public class TourGuideMapActivity extends MapActivity {
 		@Override
 		public void onReceive(Context context, Intent intent)//this method receives broadcast messages. Be sure to modify AndroidManifest.xml file in order to enable message receiving
 		{
-			double latitude = intent.getDoubleExtra(LocationService.LATITUDE, 0);
-			double longitude = intent.getDoubleExtra(LocationService.LONGITUDE, 0);
+			long latitude = intent.getLongExtra(LocationService.LATITUDE, 0);
+			long longitude = intent.getLongExtra(LocationService.LONGITUDE, 0);
 
 			Location loc = new Location("dummyprovider");
 			loc.setLatitude((int)latitude);
