@@ -29,11 +29,13 @@ public class ListActivity extends Activity{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//TODO Remove this call
 		this.startService(new Intent(this, LocationService.class));
 		setContentView(R.layout.list_layout);
 
 		//Set up connection to the database
 		db = new LocaleDataSource(this);
+		//If the database has no data, prepopulate.
 		if(db.empty()){
 			db.prepopulate();
 		}
@@ -41,11 +43,8 @@ public class ListActivity extends Activity{
 		Locale[] locales = db.getArrayOfLocales();
 
 
-
-
-
-		LocaleAdapter adapter = new LocaleAdapter(this, 
-				R.layout.listview_item_row, locales);
+		//Create the adapter 
+		LocaleAdapter adapter = new LocaleAdapter(this, R.layout.listview_item_row, locales);
 
 
 		listView1 = (ListView)findViewById(R.id.listView1);
