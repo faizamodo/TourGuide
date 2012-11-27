@@ -96,7 +96,7 @@ public class TourGuideMapActivity extends MapActivity {
 
 							}      
 						}); 
-						
+
 						adb.setNegativeButton("Close", null);
 						adb.show();           
 					}
@@ -115,7 +115,7 @@ public class TourGuideMapActivity extends MapActivity {
 			}
 
 		};
-		
+
 		mapview = (MapView)findViewById(R.id.mapview);
 		mapview.setBuiltInZoomControls(true);
 		mapController = mapview.getController();
@@ -154,24 +154,25 @@ public class TourGuideMapActivity extends MapActivity {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
-	
+
+
 	static public class LocaleServiceReceiver extends BroadcastReceiver
-    {
-      @Override
-        public void onReceive(Context context, Intent intent)//this method receives broadcast messages. Be sure to modify AndroidManifest.xml file in order to enable message receiving
-        {
-        	double latitude = intent.getDoubleExtra(LocationService.LATITUDE, 0);
-        	double longitude = intent.getDoubleExtra(LocationService.LONGITUDE, 0);
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)//this method receives broadcast messages. Be sure to modify AndroidManifest.xml file in order to enable message receiving
+		{
+			double latitude = intent.getDoubleExtra(LocationService.LATITUDE, 0);
+			double longitude = intent.getDoubleExtra(LocationService.LONGITUDE, 0);
 
 			Location loc = new Location("dummyprovider");
 			loc.setLatitude((int)latitude*1E6);
 			loc.setLongitude((int)longitude*1E6);
-			
-			locationListener.onLocationChanged(loc);
-        	
-        }
-    }
+			if(loc != null){
+				locationListener.onLocationChanged(loc);
+			}
+
+		}
+	}
 
 
 
