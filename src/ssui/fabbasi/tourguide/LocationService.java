@@ -11,6 +11,13 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+/**
+ * This Service starts the LocationManager that tracks the users current location. It runs in the background, and sends location changes to the TourGuideMapActivity,
+ * which determines if the user is within range of a POI. It does so by broadcasting a new intent if the accuracy of the location change is better than a 50 meter error
+ * fix
+ * @author Faiz
+ *
+ */
 public class LocationService extends Service implements LocationListener {
 	
 	//String commands
@@ -43,20 +50,25 @@ public class LocationService extends Service implements LocationListener {
 
 	}
 
+	/**
+	 * Called when the location has changed. Creates a new intent that includes the latitude and longitude of the new location change, and broadcasts
+	 * the intent to be received by another activity, where corresponding actions take place.
+	 */
 	@Override
 	public void onLocationChanged(Location location) {
 		System.out.println("Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude());
 		
 		Toast toast = Toast.makeText(this, "Location Change, Accuracy is: " + location.getAccuracy(), Toast.LENGTH_SHORT);
 		toast.show();
-		
-		//Stuff the latitude and longitude into an intent to be received by the TourGuideMapActivity view
-		Intent intent = new Intent(MOVEMENT_UPDATE);
-		intent.putExtra(LATITUDE, location.getLatitude());
-		intent.putExtra(LONGITUDE, location.getLongitude());
-		intent.setAction("ssui.fabbasi.tourguide.mybroadcast");
-		
-		if(location.getAccuracy() < 50){
+
+		//Ensure that the accuracy is within 50 meters (but greater than zero, a no-accuracy measurement).
+		if(location.getAccuracy() > 0 && location.getAccuracy() < 50){
+			//Stuff the latitude and longitude into an intent to be received by the TourGuideMapActivity view
+			Intent intent = new Intent(MOVEMENT_UPDATE);
+			intent.putExtra(LATITUDE, location.getLatitude());
+			intent.putExtra(LONGITUDE, location.getLongitude());
+			intent.setAction("ssui.fabbasi.tourguide.mybroadcast");
+			//Broadcast the intent to be picked up by TourGuideMapActivity
 			sendBroadcast(intent);
 		}
 		
@@ -64,19 +76,19 @@ public class LocationService extends Service implements LocationListener {
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		// TODO Auto-generated method stub
+
 		
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		// TODO Auto-generated method stub
+
 		
 	}
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
+
 		
 	}
 	
