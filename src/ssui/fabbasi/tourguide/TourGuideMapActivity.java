@@ -168,9 +168,9 @@ public class TourGuideMapActivity extends MapActivity {
 			double longitude = intent.getDoubleExtra(LocationService.LONGITUDE, 0);
 
 			Location loc = new Location("dummyprovider");
-			loc.setLatitude((int)latitude*1E6);
-			loc.setLongitude((int)longitude*1E6);
-			if(loc != null){
+			loc.setLatitude((int)latitude);
+			loc.setLongitude((int)longitude);
+			if(loc != null && locationListener != null){
 				locationListener.onLocationChanged(loc);
 			}
 
