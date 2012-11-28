@@ -9,12 +9,23 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * This class generates the individual ListActivity items with a given Locale array.
+ * @author Faiz
+ *
+ */
 public class LocaleAdapter extends ArrayAdapter<Locale> {
 	
 	Context context;
 	int textViewResourceId;
 	Locale[] objects;
 
+	/**
+	 * Generate a LocaleAdapter which creates the list items and adds the necessary data of a ListView.
+	 * @param context
+	 * @param textViewResourceId id of the list item xml spec for the ListView
+	 * @param objects an array of Locale objects to be used to generate the list items
+	 */
 	public LocaleAdapter(Context context, int textViewResourceId,
 			Locale[] objects) {
 		super(context, textViewResourceId, objects);
@@ -23,11 +34,16 @@ public class LocaleAdapter extends ArrayAdapter<Locale> {
 		this.objects = objects;
 	}
 	
+	/**
+	 * This method gets the view and adds the appropriate data to the view.
+	 */
 	@Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         LocaleHolder holder = null;
         
+        //If the row is empty, we create a LocaleHolder object, which is to contain the necessary views, and
+        //associate it with the current row.
         if(row == null)
         {
             LayoutInflater inflater = ((Activity)context).getLayoutInflater();
@@ -40,11 +56,14 @@ public class LocaleAdapter extends ArrayAdapter<Locale> {
             
             row.setTag(holder);
         }
+        //If the row exists, we get the LocaleHolder at the given row.
         else
         {
             holder = (LocaleHolder)row.getTag();
         }
         
+        //We retrieve the locale at the given position of the data array, and place the data into the appropriate Views of our holder
+        //object, to be shown at the row.
         Locale locale = objects[position];
         holder.txtTitle.setText(locale.getName());
         holder.txtDesc.setText(locale.getDescription());
@@ -53,6 +72,11 @@ public class LocaleAdapter extends ArrayAdapter<Locale> {
         return row;
     }
 
+	/**
+	 * View container of a row.
+	 * @author Faiz
+	 *
+	 */
 	static class LocaleHolder
     {
         ImageView imgIcon;

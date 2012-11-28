@@ -17,17 +17,17 @@ import android.graphics.drawable.Drawable;
  *
  */
 public class LocaleDataSource {
-	
+
 	//Database fields
 	private Context context;
 	private static SQLiteDatabase database;
 	private MySQLiteHelper myHelper;
 	private String[] allColumns;
-    private SQLiteStatement insertStmt;
-    
-    //Insert statement
-    private static final String INSERT = "insert into locales (name, latitude, longitude, description, image) values (?,?,?,?,?)";
-	
+	private SQLiteStatement insertStmt;
+
+	//Insert statement
+	private static final String INSERT = "insert into locales (name, latitude, longitude, description, image) values (?,?,?,?,?)";
+
 	/**
 	 * Initialize a new MySQLiteHelper object
 	 * @param context The context of the application.
@@ -36,9 +36,9 @@ public class LocaleDataSource {
 		this.context = context;
 		myHelper = new MySQLiteHelper(this.context);
 		open();
-        this.insertStmt = LocaleDataSource.database.compileStatement(INSERT);
+		this.insertStmt = LocaleDataSource.database.compileStatement(INSERT);
 	}
-	
+
 	/**
 	 * Initialize a new writable SQLiteDatabase
 	 * @throws SQLException
@@ -48,16 +48,16 @@ public class LocaleDataSource {
 		System.out.println(database.toString());
 
 	}
-	
+
 	/**
 	 * Close any open database object. 
 	 */
 	public void close(){
 		myHelper.close();
 	}
-	
+
 	//Database Manipulations
-	
+
 	/**
 	 * Insert a new locale into the SQLite database
 	 * @param name The name of the locale
@@ -72,68 +72,76 @@ public class LocaleDataSource {
 		this.insertStmt.bindDouble(3, longitude);
 		this.insertStmt.bindString(4, description);
 		this.insertStmt.bindDouble(5, icLauncher);
-		
-        return this.insertStmt.executeInsert();
+
+		return this.insertStmt.executeInsert();
 
 	}
-	
+
 	/**
 	 * Remove a locale from the database, based on its row ID
 	 * @param rowId the id of the locale
 	 */
 	public void delete(int rowId){
-        database.delete(MySQLiteHelper.TABLE_NAME, MySQLiteHelper.COLUMN_ID + "=" + rowId, null); 
+		database.delete(MySQLiteHelper.TABLE_NAME, MySQLiteHelper.COLUMN_ID + "=" + rowId, null); 
 	}
-	
+
 	/**
 	 * Retrieve all locales in the database, in the order that they were inserted into the database.
 	 * @return A list of Locales
 	 */
 	public List<Locale> getAllLocales(){
+		//Initialize a new list of locales
 		List<Locale> locales = new ArrayList<Locale>();
-		
+
+		//Do a general query of the locale table
 		Cursor cursor = database.query(MySQLiteHelper.TABLE_NAME, allColumns, null, null, null, null, null);
-		
-		cursor.moveToFirst();
-		while(!cursor.isAfterLast()){
-			Locale locale = cursorToLocale(cursor);
-			locales.add(locale);
-			cursor.moveToNext();
+
+		//Move the cursor to the first value, and iterate only if the move was successful
+		if(cursor.moveToFirst()){
+			//Continue to iterate and create a new locale through the cursor.
+			while(!cursor.isAfterLast()){
+				Locale locale = cursorToLocale(cursor);
+				locales.add(locale);
+				cursor.moveToNext();
+			}
 		}
+		//We're done with the cursor, so we close.
 		cursor.close();
-		
+
 		return locales;
 	}
-	
+
 	/**
 	 * This method checks to see if there are any entries in the table.
 	 * @return true if there are entries in the table. False otherwise.
 	 */
 	public boolean empty(){
 		boolean isEmpty;
+		//General query of the database
 		Cursor cursor = database.query(MySQLiteHelper.TABLE_NAME, allColumns, null, null, null, null, null);
-		
+
+		//Get the result of the moveToFirst method, and reverse it (since that's how the method is phrased)
 		isEmpty =  !cursor.moveToFirst();
 		cursor.close();
 		return isEmpty;
 	}
-	
+
 	/**
 	 * Return all the Locales stores in the database in an array
 	 * @return A Locale array
 	 */
 	public Locale[] getArrayOfLocales(){
-        //Fetch the list of locales
-        List<Locale> list = getAllLocales();
-        
-        //Transform into an array
-        Locale[] locales = list.toArray(new Locale[list.size()]);
-        
-        return locales;
+		//Fetch the list of locales
+		List<Locale> list = getAllLocales();
+
+		//Transform into an array
+		Locale[] locales = list.toArray(new Locale[list.size()]);
+
+		return locales;
 	}
-	
+
 	/**
-	 * Call this method to prepopulate the database with data. This method will recreate records, so be careful.
+	 * Call this method to prepopulate the database with data. This method will recreate records, so be careful. i.e. check if the database is empty
 	 * 
 	 */
 	public void prepopulate(){
@@ -179,19 +187,19 @@ public class LocaleDataSource {
 				"Doherty Hall and Newell-Simon Hall. This building is home to some of the School of Computer Science, Mellon College of Science and Carnegie Institute of " +
 				"Technology (engineering) departments in addition to the Bruce and Astrid McWilliams Center for Cosmology.  Wean is one of the eight locations on campus " +
 				"that has computer clusters featuring Windows, Mac and Linux platforms.", R.drawable.ic_launcher);
-		
+
 		//Hamerschlag Hall
 		insertLocale("Hamerschlag Hall", 40.442407,-79.946872, "The iconic rotunda on top of Hamerschlag Hall is probably the most frequently photographed part of Carnegie Mellon. " +
 				"The rotunda is actually a smokestack that leads to a former coal room, now a “clean room.” Hamerschlag is home to electrical and computer engineering, " +
 				"labs for mechanical engineering, and connects to Roberts Engineering Hall which houses mostly materials engineering. Hamerschlag also boasts a living " +
 				"roof – originally a small undergraduate research grant (SURG) project and has since been preserved by Carnegie Mellon’s Green Practices Committee.", R.drawable.ic_launcher);
-		
+
 		//Scaife Hall
 		insertLocale("Scaife Hall", 40.441823,-79.947317, "Down the steps next to Hamerschlag Hall, is Scaife Hall, which contains the Carnegie Institute of Technology " +
 				"(College of Engineering) dean’s office and the department of mechanical engineering. More engineering facilities can be found in Roberts Engineering Hall " +
 				"next to Scaife. Despite the unique shape of Scaife’s roof, Carnegie Mellon’s astronomy club made a home on a more level part of Scaife’s rooftop with the " +
 				"club’s observatory and its 10” Newtonian telescope to view the night sky.", R.drawable.ic_launcher);
-		
+
 		//Porter Hall
 		insertLocale("Porter Hall", 40.441754,-79.946282, "Completed in 1906, Porter Hall is the oldest building on campus and is one of the architectural creations of " +
 				"Henry Hornbostel, the first dean of our College of Fine Arts. Porter is home to various programs like civil and environmental engineering, information " +
@@ -245,7 +253,7 @@ public class LocaleDataSource {
 	 */
 	private Locale cursorToLocale(Cursor cursor) {
 		Locale locale = new Locale(cursor.getPosition(), cursor.getString(1), cursor.getDouble(2), cursor.getDouble(3), cursor.getString(4), cursor.getDouble(5));
-		
+
 		return locale;
 
 	}
@@ -257,20 +265,20 @@ public class LocaleDataSource {
 	 */
 	public Locale getById(int location) {
 		Locale l = null;
-		
-    	String q = "SELECT * FROM locales WHERE _id = '" + location +"';";
-    	
-    	Cursor cursor = database.rawQuery(q, null);
-    	
-    	if(cursor.moveToFirst()){
+
+		String q = "SELECT * FROM locales WHERE _id = '" + location +"';";
+
+		Cursor cursor = database.rawQuery(q, null);
+
+		if(cursor.moveToFirst()){
 			l = cursorToLocale(cursor);
-    	}
-        if (cursor != null && !cursor.isClosed()) {
-            cursor.close();
-        } 
-		
+		}
+		if (cursor != null && !cursor.isClosed()) {
+			cursor.close();
+		} 
+
 		return l;
 	}
-	
+
 
 }

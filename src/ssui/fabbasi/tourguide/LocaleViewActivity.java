@@ -13,9 +13,17 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * This activity creates the view for an individual Locale. It pulls the data of the locale (by using the id provided by the intent that called
+ * this Activity) and fills the layout with that data.
+ * @author Faiz
+ *
+ */
 public class LocaleViewActivity extends Activity{
 
-	int id;
+	//The id of the locale
+	private int id;
+	private LocaleDataSource db;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -29,13 +37,13 @@ public class LocaleViewActivity extends Activity{
 
 		//Add one to the id for displacement issue 
 		id = i.getIntExtra("id", -1) + 1;
-		String intent_id = Integer.toString(id);
 
-
-		LocaleDataSource db = new LocaleDataSource(this);
+		//Createa a connection to the LocaleDataSource database
+		db = new LocaleDataSource(this);
 
 		Locale l = db.getById(id);
 		if(l != null){
+			//Grab the necessary Views and set their values with the given locale.
 			ImageView image = (ImageView) findViewById(R.id.image);
 			TextView title = (TextView) findViewById(R.id.title);
 			TextView desc = (TextView) findViewById(R.id.description);

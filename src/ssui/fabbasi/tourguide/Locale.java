@@ -12,6 +12,7 @@ import com.google.android.maps.GeoPoint;
  */
 public class Locale {
 	
+	//Our fields. Set to private/final to prevent overriding of the values.
 	private final int id;
 	private final String name;
 	private final String description;
@@ -40,6 +41,7 @@ public class Locale {
 			lat = _latitude;
 			lon = _longitude;
 		}
+		//Set the lat and lon to zero if the given latitude and longitude are out of range.
 		else{
 			lat = 0;
 			lon = 0;

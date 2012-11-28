@@ -37,6 +37,9 @@ public class LocationService extends Service implements LocationListener {
 		return null;
 	}
 	
+	/**
+	 * When the Service is started, we create a new LocationManager, and set up the request updates.
+	 */
 	@Override
 	public void onStart(Intent intent, int startid) {
 	    Log.d(DEBUG_TAG, "onStart");
@@ -45,8 +48,6 @@ public class LocationService extends Service implements LocationListener {
 
 	    lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 	    lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-
-	    Log.d(DEBUG_TAG, lm.toString());
 
 	}
 
