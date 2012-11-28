@@ -6,6 +6,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
+import com.google.android.maps.Overlay;
 
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -13,6 +14,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -43,6 +45,12 @@ public class TourGuideMapActivity extends MapActivity {
 	List<Locale> locales;
 	public double latitude;
 	public double longitude;
+	
+	//Variables for drawing pins on map
+	Drawable pin;
+	List<Overlay> mapOverlays;
+	LocaleOverlay localeOverlay;
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +60,7 @@ public class TourGuideMapActivity extends MapActivity {
 		locales = db.getAllLocales();
 		i = 0;
 		LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
+	
 		
 		//Set up the mapview
 		mapview = (MapView)findViewById(R.id.mapview);
@@ -60,6 +69,21 @@ public class TourGuideMapActivity extends MapActivity {
 		//Set initial center to the UC Turnaround
 		mapController.setCenter(new GeoPoint((int)(40.444199*1E6), (int) (-79.941867*1E6)));
 		mapController.setZoom(20);
+
+		//Retrieve the current overlays on the map
+	    mapOverlays = mapview.getOverlays();
+	    //Create a Drawable object from the red_map_pin resource
+	    pin = getResources().getDrawable(R.drawable.red_map_pin);
+	    
+	    //Create a new LocaleOverlay class, with our red map pin drawable
+	    localeOverlay = new LocaleOverlay(pin);
+	    
+	    //Iterate through the locales in our list, and create a pin overlay at each location.
+		for(Locale l : locales){
+			GeoPoint point = new GeoPoint((int)(l.getLat()*1E6), (int)(l.getLon()*1E6));
+			localeOverlay.addItem(point, l.getName(), "");
+			mapOverlays.add(localeOverlay);
+		}
 		
 		//Set up the methods for our locationListener
 		locationListener = new LocationListener() {
