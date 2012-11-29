@@ -1,11 +1,6 @@
 package ssui.fabbasi.tourguide;
 
-import java.util.List;
-
-
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -56,6 +51,7 @@ public class ListActivity extends Activity{
 
 		//Set the itemClickListener to create a new intent, which sends the user to the LocaleViewActivity for the clicked locale.
 		listView1.setOnItemClickListener(new OnItemClickListener(){
+			@Override
 			public void onItemClick(AdapterView<?> arg0, View v, int position, long id)
 			{
 				//We retrieve the id of the locale at the clicked position, to be sent to the LocaleViewActivity
@@ -70,5 +66,17 @@ public class ListActivity extends Activity{
 				startActivityForResult(launchView, 0);         
 			}
 		});
+	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+		BaseApplication.activityResumed();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		BaseApplication.activityPaused();
 	}
 }

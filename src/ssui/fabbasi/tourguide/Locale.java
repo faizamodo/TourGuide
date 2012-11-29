@@ -1,9 +1,5 @@
 package ssui.fabbasi.tourguide;
 
-import android.graphics.drawable.Drawable;
-
-import com.google.android.maps.GeoPoint;
-
 /**
  * This class represents a Locale object. It contains the name, text description, coordinates, and image of the locale. This class is the
  * model and contains the data we will save in the database and show in the user interface.

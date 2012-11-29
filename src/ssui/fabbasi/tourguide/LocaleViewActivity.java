@@ -1,14 +1,7 @@
 package ssui.fabbasi.tourguide;
 
-import java.util.Hashtable;
-
-
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -53,5 +46,17 @@ public class LocaleViewActivity extends Activity{
 		}
 		db.close();
 
+	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+		BaseApplication.activityResumed();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		BaseApplication.activityPaused();
 	}
 }

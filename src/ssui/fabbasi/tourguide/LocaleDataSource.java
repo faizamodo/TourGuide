@@ -8,8 +8,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 
 /**
  * This is the data access object that creates and maintains a connection to the SQLiteDatabase and supports adding new locales and fetching all locales.

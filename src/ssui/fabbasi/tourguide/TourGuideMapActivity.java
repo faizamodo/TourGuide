@@ -8,6 +8,7 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,10 +20,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * This class represents the mapview of the TourGuide application. It contains a connection to the database and a locationManager, and a broadcast listener.
@@ -37,6 +34,7 @@ public class TourGuideMapActivity extends MapActivity {
 	private MapController mapController;
 	private MapView mapview;
 	private static LocationListener locationListener;
+	Context context;
 
 	//Connection to the database.
 	private LocaleDataSource db;
@@ -50,6 +48,8 @@ public class TourGuideMapActivity extends MapActivity {
 	//Booleans that let us know if location updates are coming from the location service.
 	public static boolean service_is_on;
 	public static boolean from_service;
+	public static boolean application_paused;
+	public static boolean activity_paused;
 
 	//Variables for drawing pins on map
 	private Drawable pin;
@@ -61,6 +61,7 @@ public class TourGuideMapActivity extends MapActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.map_layout);
+		context = this;
 
 		//Get all the locales from the database
 		db = new LocaleDataSource(this);
@@ -69,6 +70,8 @@ public class TourGuideMapActivity extends MapActivity {
 		//We assume that the service is off to begin with
 		service_is_on = false;
 		from_service = false;
+		application_paused = false;
+		activity_paused = false;
 
 		//Start iterator at 0
 		i = 0;
@@ -176,7 +179,7 @@ public class TourGuideMapActivity extends MapActivity {
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
-								Intent launchView = new Intent(TourGuideMapActivity.this, LocaleViewActivity.class);
+								Intent launchView = new Intent(context, LocaleViewActivity.class);
 
 								launchView.putExtra("id", l.getId());
 								startActivity(launchView);
@@ -185,7 +188,11 @@ public class TourGuideMapActivity extends MapActivity {
 						}); 
 						//The negative button will just close the alertDialog notification.
 						adb.setNegativeButton("Close", null);
-						adb.show();
+						
+						//Check to ensure our activity is not in the closing process from another thread
+					    if (((Activity) context).isFinishing() == false) {
+							adb.show();
+					    }
 					}
 					//If we've notified the user, we stop comparing the new location to the locales, and we break.
 					if(notified){
@@ -211,13 +218,29 @@ public class TourGuideMapActivity extends MapActivity {
 
 	}
 
+
+
+
 	@Override
 	public void onResume(){
 		super.onResume();
 		//We no longer know if the service is on, so we assume it is off (until we receive another update).
 		service_is_on = false;
+		activity_paused = false;
+		BaseApplication.activityResumed();
 	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		BaseApplication.activityPaused();
+	}
+	
+	@Override
+	protected void onStop(){
+		super.onStop();
+		activity_paused = true;
+	}
 
 
 	@Override
@@ -238,23 +261,25 @@ public class TourGuideMapActivity extends MapActivity {
 		@Override
 		public void onReceive(Context context, Intent intent)//this method receives broadcast messages. Be sure to modify AndroidManifest.xml file in order to enable message receiving
 		{
-			//Tell the TourGuideMapActivity that the service is in use.
-			service_is_on = true;
+			//If the application is not paused, we continue onward. Otherwise we do nothing.
+			if(BaseApplication.isActivityVisible() && !activity_paused){
+				//Tell the TourGuideMapActivity that the service is in use.
+				service_is_on = true;
 
-			//Get the latitude and longitude stuffed into the intent that was captured.
-			double latitude = intent.getDoubleExtra(LocationService.LATITUDE, 0);
-			double longitude = intent.getDoubleExtra(LocationService.LONGITUDE, 0);
+				//Get the latitude and longitude stuffed into the intent that was captured.
+				double latitude = intent.getDoubleExtra(LocationService.LATITUDE, 0);
+				double longitude = intent.getDoubleExtra(LocationService.LONGITUDE, 0);
 
-			//Create a fake location with our lat and lon values
-			Location loc = new Location("dummyprovider");
-			loc.setLatitude(latitude);
-			loc.setLongitude(longitude);
-			if(loc != null && locationListener != null){
-				//Tell the TourGuideMapActivity that the following location is from the service.
-				from_service = true;
-				locationListener.onLocationChanged(loc);
+				//Create a fake location with our lat and lon values
+				Location loc = new Location("dummyprovider");
+				loc.setLatitude(latitude);
+				loc.setLongitude(longitude);
+				if(loc != null && locationListener != null){
+					//Tell the TourGuideMapActivity that the following location is from the service.
+					from_service = true;
+					locationListener.onLocationChanged(loc);
+				}
 			}
-
 		}
 	}
 }

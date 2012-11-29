@@ -17,6 +17,7 @@
         android:targetSdkVersion="15" />
 
     <application
+        android:name="ssui.fabbasi.tourguide.BaseApplication"
         android:debuggable="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"

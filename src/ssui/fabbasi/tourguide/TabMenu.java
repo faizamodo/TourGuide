@@ -14,6 +14,7 @@ import android.widget.TabHost;
  */
 public class TabMenu extends TabActivity {
     /** Called when the activity is first created. */
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tabs_layout);
@@ -26,6 +27,18 @@ public class TabMenu extends TabActivity {
         //Set the initial tab to be the first (the list).
         tabHost.setCurrentTab(0);
     }
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+		BaseApplication.activityResumed();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		BaseApplication.activityPaused();
+	}
 	
 	
 }
