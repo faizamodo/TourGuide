@@ -11,4 +11,7 @@ After connecting to the device, run: (note, longitude should be a value between 
 
 geo fix longitude latitude
 
+Be sure to first activate the TourGuideMapActivity to test location changes, as I've added logic to prevent calls to the activity
+when it is in the background.
+
 Otherwise, everything else should work smoothly. Enjoy!!

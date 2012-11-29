@@ -132,16 +132,12 @@ public class TourGuideMapActivity extends MapActivity {
 			 */
 			@Override
 			public void onLocationChanged(Location location) {
-				if(!service_is_on){
-					makeUseOfNewLocation(location);
-				}
-
-				else if(service_is_on && from_service){
+				
+				if(service_is_on && from_service){
 					makeUseOfNewLocation(location);
 					//Since we did some action on the new location, we set the from_service to false.
 					from_service = false;
 				}
-				//Else do nothing
 
 			}
 
