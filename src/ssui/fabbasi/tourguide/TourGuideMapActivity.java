@@ -33,9 +33,6 @@ import android.widget.Toast;
  */
 public class TourGuideMapActivity extends MapActivity {
 
-	//Button to keep track of download click request
-	private Button change;
-
 	MapController mapController;
 	MapView mapview;
 	static LocationListener locationListener;
@@ -76,7 +73,7 @@ public class TourGuideMapActivity extends MapActivity {
 	    pin = getResources().getDrawable(R.drawable.red_map_pin);
 	    
 	    //Create a new LocaleOverlay class, with our red map pin drawable
-	    localeOverlay = new LocaleOverlay(pin);
+	    localeOverlay = new LocaleOverlay(pin, this);
 	    
 	    //Iterate through the locales in our list, and create a pin overlay at each location.
 		for(Locale l : locales){
@@ -123,7 +120,7 @@ public class TourGuideMapActivity extends MapActivity {
 					loc.setLongitude(l.getLon());
 					System.out.println(loc.getLatitude() + " " + loc.getLongitude());
 					System.out.println(location.getLatitude() + " " + location.getLongitude());
-					boolean close = location.distanceTo(loc) < 10;
+					boolean close = location.distanceTo(loc) < 50;
 
 					//If the new location is close to a locale, and a notification hasn't already been sent for the new location change,
 					//we create a new notification.
@@ -166,27 +163,6 @@ public class TourGuideMapActivity extends MapActivity {
 			}
 
 		};
-
-
-		//Assign the appropriate button
-		change = (Button) findViewById(R.id.button1);
-
-		//When the change button is clicked, we iterate through the locales in the database.
-		change.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if(locales.size() > 0){
-					i = i % locales.size();
-					Locale l = locales.get(i);
-					Location loc = new Location("dummyprovider");
-					i++;
-					loc.setLatitude(l.getLat());
-					loc.setLongitude(l.getLon());
-
-					locationListener.onLocationChanged(loc);
-				}
-			}
-		});
 
 		//Request updates from the phone
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,locationListener);

@@ -38,7 +38,7 @@ public class LocaleViewActivity extends Activity{
 		//Add one to the id for displacement issue 
 		id = i.getIntExtra("id", -1) + 1;
 
-		//Createa a connection to the LocaleDataSource database
+		//Create a connection to the LocaleDataSource database
 		db = new LocaleDataSource(this);
 
 		Locale l = db.getById(id);
@@ -47,10 +47,11 @@ public class LocaleViewActivity extends Activity{
 			ImageView image = (ImageView) findViewById(R.id.image);
 			TextView title = (TextView) findViewById(R.id.title);
 			TextView desc = (TextView) findViewById(R.id.description);
-			image.setImageResource(l.getImage());
 			title.setText(l.getName());
 			desc.setText(l.getDescription());
+			image.setImageResource(l.getImage());
 		}
+		db.close();
 
 	}
 }

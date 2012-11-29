@@ -13,15 +13,5 @@
         android:apiKey="0P1dp7wExKz_qVJjJ3x7aBV51ZgVCDpDD2Z4DmQ"
         android:clickable="true" />
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="14dp"
-        android:layout_marginTop="14dp"
-        android:text="Next Location" />
-
 
 </RelativeLayout>
