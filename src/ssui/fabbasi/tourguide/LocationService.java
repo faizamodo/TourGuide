@@ -52,9 +52,8 @@ public class LocationService extends Service implements LocationListener {
 	 */
 	@Override
 	public void onLocationChanged(Location location) {
-		System.out.println("Lat: " + location.getLatitude() + "Lon: " + location.getLongitude());
 		
-		//Ensure that the accuracy is within 50 meters (but greater than zero, a no-accuracy measurement).
+		//Ensure that the accuracy is within 50 meters.
 		if(location.getAccuracy() < 50){
 			//Stuff the latitude and longitude into an intent to be received by the TourGuideMapActivity view
 			Intent intent = new Intent(MOVEMENT_UPDATE);
