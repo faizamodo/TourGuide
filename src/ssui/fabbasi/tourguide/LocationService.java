@@ -29,10 +29,6 @@ public class LocationService extends Service implements LocationListener {
 	private LocationManager lm;
 
 	@Override
-	public void onCreate() {
-	    Log.d(DEBUG_TAG, "onCreate");
-	}
-	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
 	}
@@ -42,7 +38,6 @@ public class LocationService extends Service implements LocationListener {
 	 */
 	@Override
 	public void onStart(Intent intent, int startid) {
-	    Log.d(DEBUG_TAG, "onStart");
 
 	    lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
@@ -57,13 +52,10 @@ public class LocationService extends Service implements LocationListener {
 	 */
 	@Override
 	public void onLocationChanged(Location location) {
-		System.out.println("Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude());
+		System.out.println("Lat: " + location.getLatitude() + "Lon: " + location.getLongitude());
 		
-		Toast toast = Toast.makeText(this, "Location Change, Accuracy is: " + location.getAccuracy(), Toast.LENGTH_SHORT);
-		toast.show();
-
 		//Ensure that the accuracy is within 50 meters (but greater than zero, a no-accuracy measurement).
-		if(location.getAccuracy() > 0 && location.getAccuracy() < 50){
+		if(location.getAccuracy() < 50){
 			//Stuff the latitude and longitude into an intent to be received by the TourGuideMapActivity view
 			Intent intent = new Intent(MOVEMENT_UPDATE);
 			intent.putExtra(LATITUDE, location.getLatitude());

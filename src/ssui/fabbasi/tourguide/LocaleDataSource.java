@@ -45,7 +45,6 @@ public class LocaleDataSource {
 	 */
 	public void open() throws SQLException {
 		database = myHelper.getWritableDatabase();
-		System.out.println(database.toString());
 
 	}
 
