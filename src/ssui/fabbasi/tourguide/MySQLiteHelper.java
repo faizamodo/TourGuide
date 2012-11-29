@@ -17,7 +17,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	//Name of the database
 	public static final String DATABASE_NAME = "locations.db";
 	//Version of the database
-	public static final int DATABASE_VERSION = 2;
+	public static final int DATABASE_VERSION = 3;
 
 	//TABLE DECLARATIONS
 	public static final String TABLE_NAME = "locales";
